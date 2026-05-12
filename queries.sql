@@ -27,7 +27,6 @@ SECTION 1 — BASIC SUMMARY STATISTICS
 -- Business question:
 -- How many unique countries are there?
 
--- SQL solution:
 SELECT COUNT(DISTINCT CountryName) 
 FROM PopStats;
 
@@ -37,7 +36,6 @@ FROM PopStats;
 -- Business question:
 -- How many unique cities are there?
 
--- SQL solution:
 SELECT COUNT(DISTINCT City) 
 FROM FansPerCity; 
 
@@ -47,7 +45,6 @@ FROM FansPerCity;
 -- Business question:
 -- How many unique languages are there?
 
--- SQL solution:
 SELECT COUNT(DISTINCT Language) 
 FROM FansPerLanguage;
 
@@ -57,7 +54,6 @@ FROM FansPerLanguage;
 -- Business question:
 -- What is the daily average reach of the posts on the global page over the period?
 
--- SQL solution:
 SELECT 
   ROUND(AVG(daily_reach), 2) AS daily_average_reach 
 FROM 
@@ -71,7 +67,6 @@ FROM
 -- Business question:
 -- What is the daily average number of new likes on the global page over the period?
 
--- SQL solution:
 SELECT 
   ROUND(AVG(daily_new_likes), 2) AS daily_average_engagement_rate 
 FROM 
@@ -91,7 +86,6 @@ SECTION 2 — LOCATION ANALYSIS
 -- Business question:
 -- What are the top 10 countries (considering the number of fans)?
 
--- SQL solution:
 SELECT 
   ps.CountryCode, ps.CountryName, fpc.NumberOfFans
 FROM FansPerCountry fpc
@@ -106,7 +100,6 @@ LIMIT 10;
 -- Business question:
 -- What are the top 10 countries by penetration ratio (i.e. the % of the country population that are fans)?
 
--- SQL solution:
 SELECT 
   ps.CountryName, 
   ROUND(100.0 * fpc.NumberOfFans / ps.Population, 2) AS PenetrationRatio,
@@ -124,7 +117,6 @@ LIMIT 10;
 -- Business question:
 -- What are the bottom 10 cities (considering the number of fans) among countries with a population over 20 million?
 
--- SQL solution:
 SELECT 
   ps.CountryName, 
   fpc.City,
@@ -150,7 +142,6 @@ SECTION 3 — GEOGRAPHIC FAN ANALYSIS
 -- Business question:
 -- What is the split of page fans across age groups (in %)?
 
--- SQL solution:
 WITH total_fans AS (
   SELECT
     SUM(NumberOfFans)AS TotalFans
@@ -171,7 +162,6 @@ GROUP BY AgeGroup;
 -- Business question:
 -- What is the split of page fans by gender (in %)?
 
--- SQL solution:
 WITH total_fans AS (
   SELECT
     SUM(NumberOfFans) AS TotalFans
@@ -198,7 +188,6 @@ SECTION 4 — AUDIENCE ANALYSIS
 -- Business question:
 -- What is the number of the fans that have declared English as their primary language?
 
--- SQL solution:
 SELECT
   Language, 
   SUM(NumberOfFans) AS TotalFans
@@ -213,7 +202,6 @@ AND Language = 'en';
 -- Business question:
 -- What is the percentage of the fans that have declared English as their primary language?
 
--- SQL solution:
 WITH total_fans AS (
   SELECT 
     SUM(NumberOfFans) AS TotalFans
@@ -235,7 +223,6 @@ AND fpl.Language = 'en';
 -- Business question:
 -- Estimate the potential subscription buying power of English-speaking fans in the United States.
 
--- SQL solution:
 WITH eng_fans AS (
   SELECT 
     SUM(fpl.NumberOfFans) as TotalEnglishFans
@@ -269,7 +256,6 @@ SECTION 5 — ENGAGEMENT ANALYSIS
 -- Business question:
 -- How are engaged fans distributed across days of the week?
 
--- SQL solution:
 WITH total_engaged AS (
   SELECT SUM(EngagedFans) as total_engaged_fans 
   FROM PostInsights
@@ -296,7 +282,6 @@ ORDER BY PercentageSplit DESC;
 -- Business question:
 -- How are engaged fans distributed across time ranges during the day?
 
--- SQL solution:
 WITH total_engaged AS (
 SELECT 
   SUM(EngagedFans) as total_engaged_fans FROM PostInsights
@@ -328,7 +313,6 @@ SECTION 6 — ADVANCED TREND ANALYSIS
 -- Business question:
 -- Analyze month-over-month changes in PostClicks, EngagedFans, and Reach to identify engagement trends over time.
 
--- SQL solution:
 WITH 
 current_month AS (
   SELECT 
